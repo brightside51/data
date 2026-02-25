@@ -99,8 +99,7 @@ class NCDataset(Dataset):
 
         # DICOM Subject File Reading
         if self.args.data_format == 'dicom':
-            print(True)
-
+            
             # Subject Folder Access
             idx_fop = f"{self.args.data_fp}/{idx}"
             idx_flist = os.listdir(idx_fop)
@@ -149,7 +148,7 @@ class NCDataset(Dataset):
                         slice_data = np.array(self.transform(slice_data))
                     img_data[slice_idx, :, :] = torch.Tensor(slice_data); del slice_data
                 else: idx_flist.remove(slice_fp)
-            print(f"Accessing Subject {idx}: {len(idx_flist)} -> {self.args.num_slice} Slices")
+            if self.args.verbose: print(f"Accessing Subject | {idx} {len(idx_flist)} -> {self.args.num_slice} Slices")
             img_data = img_data[np.sort(slice_list)]
 
             # --------------------------------------------------------------------------------------------
