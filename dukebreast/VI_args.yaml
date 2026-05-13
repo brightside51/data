@@ -1,6 +1,6 @@
 base_fp: /nas-ctm01/homes/pfsousa/data
-batch_size: 2
-dataV: V0
+batch_size: 1
+dataV: VI
 data_format: dicom
 data_fp: /nas-ctm01/datasets/public/MEDICAL/Duke-Breast-Cancer-T1
 data_prep: true
@@ -19,4 +19,4 @@ slice_spacing: false
 slice_top_margin: 15
 test_split: 0
 val_split: 0
-verbose: false
+verbose: true

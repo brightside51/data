@@ -41,10 +41,10 @@ def data_parser(
     
     # Dataset Fundamentals
     parser = argparse.ArgumentParser()
-    assert dataset in [None, 'metabreast', 'dukebreast', 'lidc'],\
+    assert dataset in [None, 'metabreast', 'dukebreast', 'lidc', 'luna25_nodule'],\
         "ERROR |ARGUMENT PARSER cannot be initialised with the chosen Dataset"
     parser.add_argument('--dataset', type = str,
-                        choices = {None, 'metabreast', 'dukebreast', 'lidc'},
+                        choices = {None, 'metabreast', 'dukebreast', 'lidc', 'luna25_nodule'},
                         default = dataset)
     parser.add_argument('--dataV', type = str, default = dataV)
     parser.add_argument('--verbose', type = bool, default = True)
@@ -79,16 +79,19 @@ def data_parser(
             parser.add_argument('--data_fp', type = str,
                                 #default = "/nas-ctm01/datasets/private/LUCAS/lidc/TCIA_LIDC-IDRI_20200921/LIDC-IDRI")
                                 default = "/nas-ctm01/datasets/public/lidc_npy/3d/ct")
+        elif args.dataset == 'luna25_nodule':
+            parser.add_argument('--data_fp', type = str,
+                                default = "/nas-ctm01/datasets/public/medical_datasets/lung_ct_datasets/luna25_challenge/data_staging_area_II/protocol_1/data_npy_files/lung_nodule")
             
         # ============================================================================================
 
         # Fundamental Arguments
         parser.add_argument('--data_format', type = str,
-                            choices =  {'mp4', 'dicom', 'torch', 'np'},
+                            choices =  {'mp4', 'dicom', 'torch', 'npy'},
                             default = 'dicom')
-        parser.add_argument('--img_size', type = int, default = 128)
+        parser.add_argument('--img_size', type = int, default = 32)
         parser.add_argument('--img_channel', type = int, default = 1)
-        parser.add_argument('--num_slice', type = int, default = 30)
+        parser.add_argument('--num_slice', type = int, default = 0)
         parser.add_argument('--slice_spacing', type = bool, default = False)
         parser.add_argument('--slice_bottom_margin', type = int, default = 5)
         parser.add_argument('--slice_top_margin', type = int, default = 15)
@@ -115,8 +118,7 @@ def data_parser(
         if save:
             if args.verbose: print(f"Saving ARGUMENT PARSER | {save_fp}")
             if not save_fp.parent.exists(): os.makedirs(save_fp.parent)
-            #with open(save_fp, "w") as f: json.dump(vars(args), f)
-            with open(save_fp, "w") as f: yaml.safe_dump(vars(args), f)
+            with open(save_fp, "w") as f: yaml.safe_dump(vars(args), f, sort_keys = False)
     args.device = torch.device('cuda:0' if torch.cuda.is_available() else "cpu")
     return args
 
