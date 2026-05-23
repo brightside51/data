@@ -1,0 +1,27 @@
+base_fp: /nas-ctm01/homes/pfsousa/data
+batch_size: 1
+dataV: Vall
+data_format: npy
+data_fp: /nas-ctm01/datasets/public/lidc_npy/3d
+data_prep: true
+dataset: lidc_idri
+h_flip: 50
+img_channel: 1
+img_size: 128
+num_fps: 4
+num_slice: 0
+num_workers: 8
+prefetch_factor: 1
+reader_fp: /nas-ctm01/homes/pfsousa/data/lidc_idri
+subj_shuffle: false
+slice_shuffle: false
+slice_bottom_margin: 0
+slice_spacing: false
+slice_top_margin: 0
+test_split: 0
+val_split: 0
+hu_range:
+  - -1000.0
+  - 400.0
+min_mask_area: 500
+verbose: true

@@ -19,12 +19,16 @@ def get_ds(
 
     # LIDC-IDRI Dataset
     elif data_args.dataset == 'lidc_idri':
-        from lidc_idri_reader import NCDataset as LIDCIDRIDataset
+        from lidc_idri_reader import DataReader as LIDCIDRIDataset
         ds = LIDCIDRIDataset(data_args, mode = mode)
 
     # LUNA25 Nodule Dataset
     elif data_args.dataset == 'luna25_nodule':
         from luna25_nodule_reader import NCDataset as LUNA25NoduleDataset
         ds = LUNA25NoduleDataset(data_args, mode = mode)
+
+    elif data_args.dataset == 'covid_jun2020':
+        from covid_jun2020_reader import DataReader as CovidJun2020Dataset
+        ds = CovidJun2020Dataset(data_args, mode = mode)
     
     return ds

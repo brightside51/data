@@ -41,22 +41,21 @@ def data_parser(
     
     # Dataset Fundamentals
     parser = argparse.ArgumentParser()
-    assert dataset in [None, 'metabreast', 'dukebreast', 'lidc', 'luna25_nodule'],\
+    assert dataset in [None, 'metabreast', 'dukebreast', 'lidc_idri', 'luna25_nodule', 'covid_jun2020'],\
         "ERROR |ARGUMENT PARSER cannot be initialised with the chosen Dataset"
     parser.add_argument('--dataset', type = str,
-                        choices = {None, 'metabreast', 'dukebreast', 'lidc', 'luna25_nodule'},
+                        choices = {None, 'metabreast', 'dukebreast', 'lidc_idri', 'luna25_nodule', 'covid_jun2020'},
                         default = dataset)
     parser.add_argument('--dataV', type = str, default = dataV)
     parser.add_argument('--verbose', type = bool, default = True)
     parser.add_argument('--base_fp', type = str,
-                        default = f"/nas-ctm01/homes/pfsousa/data")
+                        default = "/nas-ctm01/homes/pfsousa/data")
     args = parser.parse_args("")
 
     # --------------------------------------------------------------------------------------------
 
     # Load Existing Arguments if Available
     save_fp = Path(f"{args.base_fp}/{args.dataset}/{args.dataV}_args.yaml")
-    #save_fp = Path(f"{args.base_fp}/{args.dataset}/{args.dataV}_args.json")
     if save_fp.exists():
         if args.verbose: print(f"Loading ARGUMENT PARSER | {save_fp}")
         with open(save_fp, "r") as f: args = dict_to_namespace(yaml.safe_load(f))
@@ -82,12 +81,15 @@ def data_parser(
         elif args.dataset == 'luna25_nodule':
             parser.add_argument('--data_fp', type = str,
                                 default = "/nas-ctm01/datasets/public/medical_datasets/lung_ct_datasets/luna25_challenge/data_staging_area_II/protocol_1/data_npy_files/lung_nodule")
+        elif args.dataset == 'covid_jun2020':
+            parser.add_argument('--data_fp', type = str,
+                                default = "/nas-ctm01/datasets/public/covid_jun2020")
             
         # ============================================================================================
 
         # Fundamental Arguments
         parser.add_argument('--data_format', type = str,
-                            choices =  {'mp4', 'dicom', 'torch', 'npy'},
+                            choices =  {'mp4', 'dicom', 'torch', 'npy', 'nii'},
                             default = 'dicom')
         parser.add_argument('--img_size', type = int, default = 32)
         parser.add_argument('--img_channel', type = int, default = 1)
