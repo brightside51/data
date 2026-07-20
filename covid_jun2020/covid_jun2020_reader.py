@@ -152,6 +152,8 @@ class DataReader(Dataset):
             print(f"Slice #{idx + 1}/{self.num_slice} (Total) | {slice_idx + 1}/{self.curr_subj_ct.shape[0]} (Current Subject)")
         ct_slice = self.curr_subj_ct[slice_idx, :, :]
         mask_slice = self.curr_subj_mask[slice_idx, :, :]
+        ct_slice = ct_slice.rot90(k = 1, dims = [0, 1])
+        mask_slice = mask_slice.rot90(k = 1, dims = [0, 1])
         
         return ct_slice.unsqueeze(0), mask_slice.unsqueeze(0)
     
