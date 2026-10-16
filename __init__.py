@@ -30,5 +30,9 @@ def get_ds(
     elif data_args.dataset == 'covid_jun2020':
         from covid_jun2020_reader import DataReader as CovidJun2020Dataset
         ds = CovidJun2020Dataset(data_args, mode = mode)
+
+    elif data_args.dataset == 'ds003768':
+            from ds003768_reader import DataReader as ds003768Dataset
+            ds = ds003768Dataset(data_args, mode = mode)
     
     return ds

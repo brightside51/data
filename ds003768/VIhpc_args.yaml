@@ -1,0 +1,35 @@
+dataset: ds003768
+dataV: VIhpc
+verbose: true
+base_fp: V:/projects/F202509580CPCAA1/pedrofsousa/data
+reader_fp: V:/projects/F202509580CPCAA1/pedrofsousa/data/ds003768
+data_fp: V:/projects/F202509580CPCAA1/datasets/ds003768
+data_prep: true
+val_split: 0
+test_split: 0
+batch_size: 1
+shuffle: true
+num_workers: 12
+prefetch_factor: 1
+state_list:
+- rest
+- sleep
+fmri:
+  data_format: nib
+  num_slice: 35
+  img_size: 64
+  img_channel: 1
+  num_fps: 4
+  slice_spacing: false
+  slice_bottom_margin: 5
+  slice_top_margin: 15
+  h_flip: 50
+eeg:
+  data_format: edf
+  num_channel: 20
+  samp_interval: None
+  samp_freq: None
+  num_sample: None
+  plot_interval:
+  - 10
+  - 20
