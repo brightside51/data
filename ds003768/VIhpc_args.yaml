@@ -1,9 +1,9 @@
 dataset: ds003768
 dataV: VIhpc
 verbose: true
-base_fp: V:/projects/F202509580CPCAA1/pedrofsousa/data
-reader_fp: V:/projects/F202509580CPCAA1/pedrofsousa/data/ds003768
-data_fp: V:/projects/F202509580CPCAA1/datasets/ds003768
+base_fp: /projects/F202509580CPCAA1/pedrofsousa/data
+reader_fp: /projects/F202509580CPCAA1/pedrofsousa/data/ds003768
+data_fp: /projects/F202509580CPCAA1/datasets/ds003768
 data_prep: true
 val_split: 0
 test_split: 0
@@ -14,6 +14,7 @@ prefetch_factor: 1
 state_list:
 - rest
 - sleep
+save_prep: True
 fmri:
   data_format: nib
   num_slice: 35
@@ -24,12 +25,16 @@ fmri:
   slice_bottom_margin: 5
   slice_top_margin: 15
   h_flip: 50
+  bold_shift: 6
 eeg:
   data_format: edf
   num_channel: 20
   samp_interval: None
-  samp_freq: None
-  num_sample: None
+  samp_freq: 250.0
+  hpass: 0.5
+  num_sample: 249
+  bcg_window: 21
+  bcg_pre: 0.25
   plot_interval:
   - 10
   - 20

@@ -56,7 +56,7 @@ def data_parser(
     parser.add_argument('--verbose', type = bool, default = True)
     if 'deucalion' in dataV or 'hpc' in dataV:
         parser.add_argument('--base_fp', type = str,
-            default = "V:/projects/F202509580CPCAA1/pedrofsousa/data")
+            default = "/projects/F202509580CPCAA1/pedrofsousa/data")
     else:
         parser.add_argument('--base_fp', type = str,
             default = "/nas-ctm01/homes/pfsousa/data")
