@@ -43,12 +43,14 @@ def data_parser(
     parser = argparse.ArgumentParser()
     assert dataset in [None, 'metabreast', 'dukebreast',
                        'lidc_idri', 'luna25_nodule', 'covid_jun2020',
-                       'ds003768', 'noddi'],\
+                       'ds003768', 'noddi', 'ds007216', 'natview',
+                       'ds002336', 'ds001116', 'ds002158'],\
         "ERROR |ARGUMENT PARSER cannot be initialised with the chosen Dataset"
     parser.add_argument('--dataset', type = str,
                         choices = { None, 'metabreast', 'dukebreast',
                                     'lidc_idri', 'luna25_nodule', 'covid_jun2020',
-                                    'ds003768', 'noddi'},
+                                    'ds003768', 'noddi', 'ds007216', 'natview',
+                                    'ds002336', 'ds001116', 'ds002158'},
                         default = dataset)
 
     # Dataset Versioning
@@ -99,6 +101,7 @@ def data_parser(
             elif args.dataset == 'covid_jun2020':
                 parser.add_argument('--data_fp', type = str,
                                     default = "/nas-ctm01/datasets/public/covid_jun2020")
+
             elif args.dataset == 'ds003768':
                             parser.add_argument('--data_fp', type = str,
                                                 default = "/nas-ctm01/datasets/public/ds003768/ds003768")

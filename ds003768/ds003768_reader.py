@@ -403,6 +403,22 @@ class DataReader(Dataset):
                                             stderr = subprocess.DEVNULL, text = True).strip()
         except Exception: return None
 
+    # Run-Mean Volume Function (mean of the per-volume min-max normalised target volumes of a run, i.e.
+    # its static anatomy; used by the fluctuation metrics, never as model input). Kept in its own dict
+    # (~0.6 MB per run), not the LRU run cache, so shuffled batches never recompute it
+    def run_mean(self, run_id: str):
+        if not hasattr(self, 'run_means'):
+            self.run_means = {}; self.run_vols = {}
+            for r, v in self.sample_idx: self.run_vols.setdefault(r, []).append(v)
+        if run_id not in self.run_means:
+            run = self.load_run(run_id); vols = sorted(self.run_vols[run_id]); total = 0
+            for i in range(0, len(vols), 64):
+                f = np.asarray(run['fmri'][vols[i:i + 64]], dtype = np.float32)
+                mn = f.min(axis = (1, 2, 3), keepdims = True); mx = f.max(axis = (1, 2, 3), keepdims = True)
+                total = total + ((f - mn) / (mx - mn + 1e-10)).sum(0)
+            self.run_means[run_id] = (total / max(len(vols), 1)).astype(np.float32)
+        return self.run_means[run_id]
+
     # ============================================================================================
 
     # EEG Z-Score Function (across Electrodes per Window & Frequency Bin, as E2fNet's scipy zscore axis 0)
@@ -456,7 +472,10 @@ class DataReader(Dataset):
         fmri = np.asarray(run['fmri'][v], dtype = np.float32)
         fmri = (fmri - fmri.min()) / (fmri.max() - fmri.min() + 1e-10)
 
-        return {'eeg': torch.from_numpy(eeg), 'fmri': torch.from_numpy(fmri),
-                'run_id': run_id, 'volume': v, 'sleep_stage': run['meta']['sleep_stage'][v]}
+        # Sample Data Fetching | Run-Mean Volume & Repetition Time (for the fluctuation & run-level metrics)
+        fmri_mean = self.run_mean(run_id)
+
+        return {'eeg': torch.from_numpy(eeg), 'fmri': torch.from_numpy(fmri), 'fmri_mean': torch.from_numpy(fmri_mean),
+                'tr': float(run['meta']['tr']), 'run_id': run_id, 'volume': v, 'sleep_stage': run['meta']['sleep_stage'][v]}
 
     # ============================================================================================

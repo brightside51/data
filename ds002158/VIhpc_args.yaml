@@ -1,0 +1,42 @@
+dataset: ds002158
+dataV: VIhpc
+verbose: true
+base_fp: /projects/F202509580CPCAA1/pedrofsousa/data
+reader_fp: /projects/F202509580CPCAA1/pedrofsousa/data/ds002158
+data_fp: /projects/F202509580CPCAA1/datasets/ds002158
+data_prep: true
+val_split: 0
+test_split: 0
+batch_size: 1
+shuffle: true
+num_workers: 0
+prefetch_factor: 1
+task_list:
+- main
+exclude_runs:
+# - sub-20_main_007     # rejected by the authors (its EEG is in eeg/rejected, so it is already skipped)
+save_prep: True
+fmri:
+  data_format: nib
+  num_slice: 64
+  img_size: 64
+  img_channel: 1
+  num_fps: 4
+  slice_spacing: false
+  slice_bottom_margin: 5
+  slice_top_margin: 15
+  h_flip: 50
+  bold_shift: 6
+eeg:
+  data_format: edf
+  num_channel: 20
+  samp_interval: None
+  samp_freq: 250.0
+  hpass: 0.5
+  num_sample: 159
+  bcg_channel: ECG
+  bcg_window: 21
+  bcg_pre: 0.25
+  plot_interval:
+  - 10
+  - 20

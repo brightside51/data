@@ -1,0 +1,41 @@
+dataset: ds007216
+dataV: VIhpc
+verbose: true
+base_fp: /projects/F202509580CPCAA1/pedrofsousa/data
+reader_fp: /projects/F202509580CPCAA1/pedrofsousa/data/ds007216
+data_fp: /projects/F202509580CPCAA1/datasets/ds007216
+data_prep: true
+val_split: 18
+test_split: 18
+batch_size: 1
+shuffle: true
+num_workers: 0
+prefetch_factor: 1
+state_list:
+- ExperienceSampling
+- GradCPT
+ses_list:
+- 1
+- 2
+save_prep: True
+fmri:
+  data_format: nib
+  num_slice: 81
+  img_size: 64
+  img_channel: 1
+  num_fps: 4
+  slice_spacing: false
+  slice_bottom_margin: 5
+  slice_top_margin: 15
+  h_flip: 50
+  bold_shift: 6
+eeg:
+  data_format: edf
+  num_channel: 20
+  samp_interval: None
+  samp_freq: 250.0
+  hpass: 0.5
+  num_sample: 249
+  plot_interval:
+  - 10
+  - 20
